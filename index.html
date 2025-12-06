@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TRUE HAPPINESS QUEST - Revolusi Industri 4.0</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Additional mobile styles for intro */
+        .button-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .intro-content {
+                padding: 2rem 1.5rem !important;
+                margin: 1rem !important;
+            }
+            
+            .intro-text p {
+                font-size: 1rem !important;
+                line-height: 1.6 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="screen intro-screen active">
+        <div class="intro-content">
+            <div class="title-container">
+                <h1 class="main-title">TRUE HAPPINESS QUEST</h1>
+                <div class="title-underline"></div>
+                <h2 class="subtitle">Revolusi Industri 4.0 & Pencarian Kebahagiaan Sejati</h2>
+            </div>
+            
+            <div class="intro-text">
+                <p>Di era <span class="highlight">Revolusi Industri 4.0</span>, teknologi digital telah mengubah cara kita hidup, bekerja, dan berbelanja. Algoritma mengetahui keinginan kita sebelum kita sendiri menyadarinya.</p>
+                
+                <p>Iklan yang dipersonalisasi, notifikasi tak henti, dan janji kebahagiaan instan telah menciptakan budaya <span class="highlight">konsumsi berlebihan</span>. Tetapi apakah kebahagiaan sejati benar-benar datang dari barang-barang yang kita beli?</p>
+                
+                <p>Dalam game edukatif ini, Anda akan menjalani kehidupan dua karakter berbeda dan menemukan jawabannya sendiri tentang makna kebahagiaan di era digital.</p>
+            </div>
+            
+            <div class="button-container">
+                <button class="start-btn" id="startBtn" data-action="start">
+                    <span>Mulai Perjalanan</span>
+                    <div class="btn-sparkle"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game-state.js"></script>
+    <script>
+        // Setup untuk mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            // Deteksi mobile
+            detectMobile();
+            setupMobileOptimization();
+            setupViewportHeight();
+            
+            // Setup event listeners
+            const startBtn = document.getElementById('startBtn');
+            if (startBtn) {
+                if (GameState.isMobile) {
+                    startBtn.addEventListener('touchstart', handleButtonTouchStart, { passive: true });
+                    startBtn.addEventListener('touchend', handleButtonTouchEnd, { passive: true });
+                    startBtn.addEventListener('touchcancel', handleButtonTouchCancel, { passive: true });
+                    startBtn.addEventListener('click', handleButtonClick);
+                } else {
+                    startBtn.addEventListener('click', handleButtonClick);
+                }
+            }
+            
+            // Hilangkan loading screen jika ada
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        if (loadingScreen.parentNode) {
+                            loadingScreen.remove();
+                        }
+                    }, 300);
+                }
+            }, 500);
+            
+            console.log('Intro page initialized for mobile:', GameState.isMobile);
+        });
+        
+        // Prevent pull-to-refresh on iOS
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>

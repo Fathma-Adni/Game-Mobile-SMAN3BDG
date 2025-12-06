@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="description" content="True Happiness Quest - Game interaktif tentang kebahagiaan sejati">
+    <title>Hari 4: Irma - True Happiness Quest</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="icon.png">
+    <style>
+        /* Mobile-specific optimizations */
+        @media (max-width: 768px) {
+            .scene-content {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .scene-visual, .scene-text {
+                width: 100% !important;
+            }
+            
+            .scene-image {
+                max-height: 40vh;
+                object-fit: contain;
+            }
+            
+            .choice-btn {
+                font-size: 14px;
+                padding: 12px 8px;
+                margin: 5px 0;
+                min-height: 60px;
+            }
+            
+            .choice-text {
+                display: block;
+                margin-bottom: 5px;
+            }
+            
+            .stats-bar {
+                flex-wrap: wrap;
+                justify-content: space-between;
+                padding: 10px;
+            }
+            
+            .stat {
+                flex: 0 0 48%;
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+            
+            .scene-title {
+                font-size: 1.4rem;
+            }
+            
+            .scene-subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .progress-container {
+                height: 8px;
+            }
+            
+            .day-indicator {
+                font-size: 12px;
+            }
+            
+            .choice-message {
+                font-size: 0.9rem;
+                padding: 10px;
+                margin: 10px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stat {
+                flex: 0 0 100%;
+            }
+            
+            .choice-btn {
+                font-size: 13px;
+                padding: 10px 6px;
+            }
+            
+            .scene-title {
+                font-size: 1.2rem;
+            }
+            
+            .choice-cost {
+                font-size: 12px;
+            }
+        }
+        
+        /* Prevent text selection on buttons */
+        .choice-btn {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        /* Improve tap targets */
+        button, .choice-btn {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Smooth transitions for mobile */
+        .scene-screen {
+            transition: opacity 0.3s ease;
+        }
+        
+        .stat-update {
+            animation: pulse 0.6s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Highlight for free options */
+        .free-highlight {
+            animation: glow 2s infinite;
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+        }
+    </style>
+</head>
+<body>
+    <div class="screen scene-screen active">
+        <div class="scene-header">
+            <h1 class="scene-title">Warisan dan Dampak Abadi</h1>
+            <p class="scene-subtitle">Hari 4 - Refleksi akhir perjalanan Irma</p>
+            <div class="progress-section">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="day-indicator">Hari 4</div>
+            </div>
+        </div>
+        
+        <div class="scene-content">
+            <div class="scene-visual">
+                <img src="irma-scene4.jpeg" alt="Irma's Legacy Scene" class="scene-image">
+            </div>
+            
+            <div class="scene-text">
+                <div class="scene-description">
+                    <p>Setelah tiga hari menjalani hidup dengan kesederhanaan dan makna, <span class="highlight">Irma</span> merefleksikan perjalanannya. Dia melihat bagaimana pilihannya mempengaruhi orang-orang di sekitarnya.</p>
+                    
+                    <p>Di tengah <span class="highlight">Revolusi Industri 4.0</span> yang mengedepankan individualisme dan konsumerisme, Irma menemukan bahwa kebahagiaan sejati datang dari kontribusi kepada komunitas dan hubungan yang bermakna.</p>
+                    
+                    <p>Apa warisan terbaik yang bisa Irma tinggalkan untuk generasi berikutnya?</p>
+                </div>
+                
+                <div class="scene-choices">
+                    <button class="choice-btn" data-choice="1">
+                        <span class="choice-text">Hadiri konser musik akustik komunitas</span>
+                        <span class="choice-cost">Gratis</span>
+                    </button>
+                    <button class="choice-btn" data-choice="2">
+                        <span class="choice-text">Beli alat musik untuk mengembangkan bakat</span>
+                        <span class="choice-cost">-Rp 120.000</span>
+                    </button>
+                    <button class="choice-btn" data-choice="3">
+                        <span class="choice-text">Mengajar kelas seni gratis untuk anak-anak</span>
+                        <span class="choice-cost">Gratis</span>
+                    </button>
+                </div>
+                
+                <div class="stats-bar">
+                    <div class="stat">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="irmaMoney">Rp 200.000</div>
+                        <div class="stat-label">Uang</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">😊</div>
+                        <div class="stat-value" id="irmaHappiness">75</div>
+                        <div class="stat-label">Kebahagiaan</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-value" id="irmaEnergy">85</div>
+                        <div class="stat-label">Energi</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value" id="irmaSocial">80</div>
+                        <div class="stat-label">Sosial</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game-state.js"></script>
+    <script>
+        // Setup scene secara otomatis
+        setupScene();
+        
+        // Mobile-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevent zoom on double-tap
+            document.addEventListener('touchstart', function(event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Prevent context menu on long press
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            
+            // Load game state
+            loadGameState();
+            
+            // Scene-specific logic for Day 4
+            const sceneNumber = 4;
+            
+            // Initialize scene dengan progress saat ini
+            const progressBar = document.getElementById('progressBar');
+            const progressPercentage = calculateProgress();
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            // Update stats display
+            document.getElementById('irmaMoney').textContent = formatMoney(GameState.irma.money);
+            document.getElementById('irmaHappiness').textContent = GameState.irma.happiness;
+            document.getElementById('irmaEnergy').textContent = GameState.irma.energy;
+            document.getElementById('irmaSocial').textContent = GameState.irma.social;
+            
+            // LOGIKA UTAMA: Memaksa pemilih opsi gratis jika uang habis
+            const choiceButtons = document.querySelectorAll('.choice-btn');
+            const sceneText = document.querySelector('.scene-text');
+            
+            // Nonaktifkan tombol berbayar jika uang tidak cukup
+            choiceButtons.forEach(btn => {
+                const choice = btn.getAttribute('data-choice');
+                const key = `irma${sceneNumber}-${choice}`;
+                const effects = ChoiceEffects[key];
+                
+                // Update tampilan biaya
+                const costElement = btn.querySelector('.choice-cost');
+                if (costElement) {
+                    if (effects.money < 0) {
+                        costElement.textContent = `💰 ${formatMoney(Math.abs(effects.money))}`;
+                        costElement.style.color = "var(--yellow-primary)";
+                    } else if (effects.money > 0) {
+                        costElement.textContent = `💰 +${formatMoney(effects.money)}`;
+                        costElement.style.color = "var(--yellow-secondary)";
+                    } else {
+                        costElement.textContent = `💰 GRATIS`;
+                        costElement.style.color = "var(--text-secondary)";
+                    }
+                }
+                
+                // Untuk Irma: nonaktifkan tombol berbayar jika uang tidak cukup
+                if (effects.money < 0) {
+                    if (!canAffordChoice('irma', effects)) {
+                        btn.disabled = true;
+                        btn.style.opacity = "0.6";
+                        btn.style.cursor = "not-allowed";
+                        
+                        // Update teks biaya
+                        if (costElement) {
+                            costElement.textContent = "UANG TIDAK CUKUP";
+                            costElement.style.color = "var(--text-muted)";
+                        }
+                        
+                        // Tambah tooltip
+                        btn.title = `Butuh ${formatMoney(Math.abs(effects.money))}, hanya punya ${formatMoney(GameState.irma.money)}`;
+                    }
+                }
+            });
+            
+            // Cek apakah ada opsi gratis yang tersedia
+            const freeButtons = Array.from(choiceButtons).filter(btn => {
+                const choice = btn.getAttribute('data-choice');
+                const key = `irma${sceneNumber}-${choice}`;
+                const effects = ChoiceEffects[key];
+                return effects && effects.money === 0;
+            });
+            
+            // Jika uang Irma habis atau hampir habis, highlight opsi gratis
+            if (GameState.irma.money <= 0) {
+                freeButtons.forEach(freeBtn => {
+                    freeBtn.classList.add('free-highlight');
+                    freeBtn.style.borderColor = "var(--yellow-primary)";
+                    freeBtn.title = "⚠ Uang habis! Pilih opsi gratis untuk melanjutkan.";
+                });
+                
+                // Tambah pesan peringatan
+                if (sceneText) {
+                    const warningMsg = document.createElement('div');
+                    warningMsg.className = 'choice-message';
+                    warningMsg.style.backgroundColor = 'rgba(255, 140, 0, 0.2)';
+                    warningMsg.style.borderColor = 'var(--yellow-secondary)';
+                    warningMsg.innerHTML = `
+                        <h4 style="color: var(--yellow-primary); margin-bottom: 5px;">⚠ PERHATIAN</h4>
+                        <p>Uang Irma telah habis! Hanya opsi gratis yang tersedia.</p>
+                        <p style="font-size: 0.9em; margin-top: 5px;">Pilih salah satu opsi gratis di bawah untuk melanjutkan permainan.</p>
+                    `;
+                    sceneText.appendChild(warningMsg);
+                }
+            }
+            
+            // Add event listeners to choice buttons
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.classList.contains('selected') || this.disabled) return;
+                    
+                    const choice = this.getAttribute('data-choice');
+                    const key = `irma${sceneNumber}-${choice}`;
+                    const effects = ChoiceEffects[key];
+                    
+                    // CEK KETAT: Apakah Irma bisa membayar?
+                    if (effects.money < 0) {
+                        if (!canAffordChoice('irma', effects)) {
+                            // Tampilkan pesan error
+                            const messageDiv = document.createElement('div');
+                            messageDiv.className = 'choice-message';
+                            messageDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+                            messageDiv.style.borderColor = 'red';
+                            messageDiv.textContent = "❌ ERROR: Uang Irma tidak cukup untuk pilihan ini! Pilih opsi gratis.";
+                            sceneText.appendChild(messageDiv);
+                            
+                            // Highlight opsi gratis
+                            freeButtons.forEach(b => {
+                                b.classList.add('free-highlight');
+                                b.style.borderColor = "var(--yellow-primary)";
+                                setTimeout(() => {
+                                    b.classList.remove('free-highlight');
+                                    b.style.borderColor = "";
+                                }, 3000);
+                            });
+                            
+                            return; // STOP - tidak lanjutkan
+                        }
+                    }
+                    
+                    // Apply effects and get message (sekarang termasuk skor untuk ending)
+                    const message = applyEffects(GameState.irma, effects);
+                    
+                    // Update display with animation
+                    const moneyElement = document.getElementById('irmaMoney');
+                    const happinessElement = document.getElementById('irmaHappiness');
+                    const energyElement = document.getElementById('irmaEnergy');
+                    const socialElement = document.getElementById('irmaSocial');
+                    
+                    moneyElement.textContent = formatMoney(GameState.irma.money);
+                    happinessElement.textContent = GameState.irma.happiness;
+                    energyElement.textContent = GameState.irma.energy;
+                    socialElement.textContent = GameState.irma.social;
+                    
+                    // Add animation to updated stats
+                    [moneyElement, happinessElement, energyElement, socialElement].forEach(el => {
+                        el.classList.add('stat-update');
+                        setTimeout(() => el.classList.remove('stat-update'), 600);
+                    });
+                    
+                    // Save game state
+                    GameState.currentScene = sceneNumber;
+                    saveGameState();
+                    
+                    // Add selection animation to all buttons
+                    document.querySelectorAll('.choice-btn').forEach(b => {
+                        b.classList.remove('selected');
+                        b.disabled = true;
+                        b.style.opacity = "0.6";
+                        b.classList.remove('free-highlight');
+                    });
+                    this.classList.add('selected');
+                    
+                    // Show message
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'choice-message';
+                    messageDiv.textContent = message;
+                    sceneText.appendChild(messageDiv);
+                    
+                    // Transition to ending setelah delay (Scene 4 adalah akhir, langsung ke ending)
+                    setTimeout(() => {
+                        document.querySelector('.scene-screen').classList.add('fade-out');
+                        setTimeout(() => {
+                            // Go to ending
+                            GameState.day++;
+                            saveGameState();
+                            window.location.href = 'ending.html';
+                        }, 800);
+                    }, 2500);
+                });
+                
+                // Tambahkan feedback sentuh untuk mobile
+                btn.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+            
+            // LOGIKA OTOMATIS: Paksa pilih opsi gratis setelah 8 detik jika uang habis
+            if (GameState.irma.money <= 0) {
+                setTimeout(() => {
+                    if (!document.querySelector('.choice-btn.selected')) {
+                        const firstFreeBtn = freeButtons[0];
+                        if (firstFreeBtn && !firstFreeBtn.disabled) {
+                            console.log("Auto-selecting first free option after timeout");
+                            firstFreeBtn.click();
+                        }
+                    }
+                }, 8000);
+            }
+            
+            // Handle orientation change
+            window.addEventListener('orientationchange', function() {
+                setTimeout(function() {
+                    // Refresh layout jika diperlukan
+                    if (progressBar) {
+                        progressBar.style.width = `${calculateProgress()}%`;
+                    }
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

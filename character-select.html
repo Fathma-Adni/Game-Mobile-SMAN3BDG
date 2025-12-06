@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pilih Karakter - True Happiness Quest</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Additional mobile styles for character selection */
+        .character-select-screen {
+            padding: 1.5rem !important;
+            min-height: 100vh;
+        }
+        
+        .character-card {
+            width: 100%;
+            max-width: 380px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .character-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--grey-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            background-color: var(--maroon-primary);
+            color: white;
+        }
+        
+        .character-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @media (max-width: 768px) {
+            .character-options {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+            
+            .character-card {
+                padding: 1.5rem;
+            }
+            
+            .character-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+            
+            .character-info h2 {
+                font-size: 1.8rem;
+            }
+            
+            .character-desc {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            .character-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .character-select-screen {
+                padding: 1rem !important;
+            }
+            
+            .character-card {
+                padding: 1rem;
+            }
+            
+            .character-info h2 {
+                font-size: 1.5rem;
+            }
+            
+            .character-tagline {
+                font-size: 0.9rem;
+            }
+            
+            .select-btn {
+                padding: 1rem 1.5rem !important;
+                font-size: 1rem !important;
+                min-height: 50px;
+            }
+            
+            .character-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* Animasi untuk kartu karakter */
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Tombol kembali */
+        .mobile-back-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .mobile-back-container .start-btn {
+            background: var(--grey-dark);
+            border-color: var(--grey-medium);
+        }
+        
+        .mobile-back-container .start-btn:hover {
+            background: var(--maroon-secondary);
+            border-color: var(--yellow-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="screen character-select-screen active">
+        <div class="character-selection-header">
+            <h1 class="main-title">PILIH KARAKTER ANDA</h1>
+            <h2 class="subtitle">Jalani kehidupan berbeda di era Revolusi Industri 4.0</h2>
+        </div>
+        
+        <div class="character-options">
+            <div class="character-card">
+                <div class="character-avatar">
+                    <!-- Emoji sebagai fallback jika gambar gagal dimuat -->
+                    <span class="avatar-fallback">👨‍💼</span>
+                    <img src="profile-adni.jpeg" alt="Adni" loading="lazy" 
+                         onerror="this.style.display='none'; document.querySelector('.avatar-fallback').style.display='flex';">
+                </div>
+                <div class="character-info">
+                    <h2>ADNI</h2>
+                    <p class="character-tagline">Profesional Muda di Era Digital</p>
+                    <p class="character-desc">Seorang profesional sukses dengan gaya hidup urban. Terus dikelilingi godaan konsumsi digital dan tekanan sosial media.</p>
+                    <div class="character-stats">
+                        <span>💰 Uang: Rp100.000.000</span>
+                        <span>😊 Kebahagiaan: 50</span>
+                    </div>
+                </div>
+                <button class="select-btn" data-action="select-adni">
+                    <span>Pilih Adni</span>
+                    <div class="btn-sparkle"></div>
+                </button>
+            </div>
+            
+            <div class="character-card">
+                <div class="character-avatar">
+                    <span class="avatar-fallback">👩‍🏫</span>
+                    <img src="profile-irma.jpeg" alt="Irma" loading="lazy"
+                         onerror="this.style.display='none'; document.querySelectorAll('.avatar-fallback')[1].style.display='flex';">
+                </div>
+                <div class="character-info">
+                    <h2>IRMA</h2>
+                    <p class="character-tagline">Guru dengan Gaya Hidup Sederhana</p>
+                    <p class="character-desc">Seorang guru yang menemukan kebahagiaan dalam hal-hal sederhana. Hidup bermakna di tengah hiruk-pikuk dunia digital.</p>
+                    <div class="character-stats">
+                        <span>💰 Uang: Rp200.000</span>
+                        <span>😊 Kebahagiaan: 75</span>
+                    </div>
+                </div>
+                <button class="select-btn" data-action="select-irma">
+                    <span>Pilih Irma</span>
+                    <div class="btn-sparkle"></div>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tombol untuk kembali ke menu utama -->
+        <div class="mobile-back-container">
+            <button class="start-btn" id="backToMenu">
+                <span>Kembali ke Menu</span>
+                <div class="btn-sparkle"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="game-state.js"></script>
+    <script>
+        // Setup untuk mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Character selection page loading...');
+            
+            // Inisialisasi fallback avatar
+            const fallbacks = document.querySelectorAll('.avatar-fallback');
+            fallbacks.forEach(fb => {
+                fb.style.display = 'flex';
+                fb.style.alignItems = 'center';
+                fb.style.justifyContent = 'center';
+                fb.style.width = '100%';
+                fb.style.height = '100%';
+            });
+            
+            // Deteksi mobile
+            detectMobile();
+            setupMobileOptimization();
+            
+            // Setup viewport height untuk mobile
+            function setupViewportHeight() {
+                const setVH = () => {
+                    const vh = window.innerHeight * 0.01;
+                    document.documentElement.style.setProperty('--vh', `${vh}px`);
+                    
+                    // Update screen height
+                    const screen = document.querySelector('.character-select-screen');
+                    if (screen) {
+                        screen.style.minHeight = `${window.innerHeight}px`;
+                    }
+                };
+                
+                setVH();
+                window.addEventListener('resize', setVH);
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(setVH, 100);
+                });
+            }
+            
+            setupViewportHeight();
+            
+            // Setup tombol kembali
+            const backButton = document.getElementById('backToMenu');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    // Transition effect
+                    const screen = document.querySelector('.character-select-screen');
+                    if (screen) {
+                        screen.classList.add('fade-out');
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 600);
+                });
+            }
+            
+            // Setup event listeners untuk tombol pilih karakter
+            function handleCharacterSelection(character) {
+                if (GameState.isProcessing) return;
+                
+                GameState.isProcessing = true;
+                GameState.currentCharacter = character;
+                GameState.currentScene = 1;
+                GameState.day = 1;
+                
+                // Haptic feedback untuk mobile
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+                
+                saveGameState();
+                
+                // Transition effect
+                const screen = document.querySelector('.character-select-screen');
+                if (screen) {
+                    screen.classList.add('fade-out');
+                }
+                
+                // Navigate setelah delay
+                setTimeout(() => {
+                    window.location.href = `${character}-scene1.html`;
+                    GameState.isProcessing = false;
+                }, 600);
+            }
+            
+            // Setup untuk tombol pilih karakter
+            const selectButtons = document.querySelectorAll('.select-btn');
+            
+            selectButtons.forEach(button => {
+                // Untuk mobile
+                if (GameState.isMobile) {
+                    button.addEventListener('touchstart', function(e) {
+                        if (GameState.isProcessing) return;
+                        this.style.transform = 'scale(0.95)';
+                        this.style.opacity = '0.8';
+                    }, { passive: true });
+                    
+                    button.addEventListener('touchend', function(e) {
+                        if (GameState.isProcessing) return;
+                        this.style.transform = '';
+                        this.style.opacity = '';
+                        
+                        const action = this.getAttribute('data-action');
+                        if (action === 'select-adni') {
+                            handleCharacterSelection('adni');
+                        } else if (action === 'select-irma') {
+                            handleCharacterSelection('irma');
+                        }
+                    }, { passive: true });
+                    
+                    button.addEventListener('touchcancel', function(e) {
+                        this.style.transform = '';
+                        this.style.opacity = '';
+                    });
+                }
+                
+                // Untuk desktop dan fallback mobile
+                button.addEventListener('click', function(e) {
+                    if (GameState.isProcessing) return;
+                    e.preventDefault();
+                    const action = this.getAttribute('data-action');
+                    if (action === 'select-adni') {
+                        handleCharacterSelection('adni');
+                    } else if (action === 'select-irma') {
+                        handleCharacterSelection('irma');
+                    }
+                });
+            });
+            
+            // Preload gambar karakter
+            function preloadImages() {
+                const imageUrls = ['profile-adni.jpeg', 'profile-irma.jpeg'];
+                
+                imageUrls.forEach(url => {
+                    const img = new Image();
+                    img.src = url;
+                    img.onload = function() {
+                        console.log(`Image loaded: ${url}`);
+                        // Sembunyikan fallback dan tampilkan gambar
+                        const index = imageUrls.indexOf(url);
+                        const fallbacks = document.querySelectorAll('.avatar-fallback');
+                        const images = document.querySelectorAll('.character-avatar img');
+                        
+                        if (fallbacks[index] && images[index]) {
+                            fallbacks[index].style.display = 'none';
+                            images[index].style.display = 'block';
+                        }
+                    };
+                    img.onerror = function() {
+                        console.log(`Image failed to load: ${url}`);
+                        // Fallback akan tetap ditampilkan
+                    };
+                });
+            }
+            
+            // Preload images setelah halaman selesai load
+            setTimeout(preloadImages, 100);
+            
+            // Hilangkan loading screen jika ada
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => {
+                        if (loadingScreen.parentNode) {
+                            loadingScreen.remove();
+                        }
+                    }, 300);
+                }
+            }, 500);
+            
+            console.log('Character selection page initialized for mobile:', GameState.isMobile);
+        });
+        
+        // Prevent pull-to-refresh on iOS
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Handle orientation change
+        window.addEventListener('orientationchange', function() {
+            console.log('Orientation changed, resetting layout...');
+            setTimeout(() => {
+                // Update viewport height
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

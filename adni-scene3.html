@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari 3: Adni - True Happiness Quest</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<script src="game-state.js"></script>
+<script>
+    // Setup scene secara otomatis
+    setupScene();
+</script>
+    <div class="screen scene-screen active">
+        <div class="scene-header">
+            <h1 class="scene-title">Work-Life Balance di Era Digital</h1>
+            <p class="scene-subtitle">Hari 3 - Adni menghadapi tekanan pekerjaan</p>
+            <div class="progress-section">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="day-indicator">Hari 3</div>
+            </div>
+        </div>
+        
+        <div class="scene-content">
+            <div class="scene-visual">
+                <img src="adni-scene3.jpeg" alt="Adni's Work Scene" class="scene-image">
+            </div>
+            
+            <div class="scene-text">
+                <div class="scene-description">
+                    <p>Hari ini <span class="highlight">Adni</span> menerima tawaran proyek besar dengan deadline ketat. Dia harus memilih antara karir dan kehidupan pribadi.</p>
+                    
+                    <p>Di era <span class="highlight">Revolusi Industri 4.0</span>, batas antara kerja dan kehidupan pribadi semakin kabur. Email dan chat kerja bisa masuk kapan saja, membuat sulit untuk benar-benar beristirahat.</p>
+                    
+                    <p>Bagaimana Adni seharusnya menyeimbangkan pekerjaan dan kehidupan?</p>
+                </div>
+                
+                <div class="scene-choices">
+                    <button class="choice-btn" data-choice="1">
+                        <span class="choice-text">Ambil proyek dan kerja lembur</span>
+                        <span class="choice-cost">-10.000.000 💰</span>
+                    </button>
+                    <button class="choice-btn" data-choice="2">
+                        <span class="choice-text">Tolak proyek dan habiskan waktu dengan keluarga</span>
+                        <span class="choice-cost">-8.000.000 💰</span>
+                    </button>
+                    <button class="choice-btn" data-choice="3">
+                        <span class="choice-text">Negosiasi deadline yang lebih longgar</span>
+                        <span class="choice-cost">Gratis</span>
+                    </button>
+                </div>
+                
+                <div class="stats-bar">
+                    <div class="stat">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="adniMoney">Rp 100.000.000</div>
+                        <div class="stat-label">Uang</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">😊</div>
+                        <div class="stat-value" id="adniHappiness">50</div>
+                        <div class="stat-label">Kebahagiaan</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-value" id="adniEnergy">70</div>
+                        <div class="stat-label">Energi</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value" id="adniSocial">30</div>
+                        <div class="stat-label">Sosial</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game-state.js"></script>
+    <script>
+        // Load game state
+        loadGameState();
+        
+        // Initialize scene with current progress
+        const progressBar = document.getElementById('progressBar');
+        const progressPercentage = calculateProgress();
+        progressBar.style.width = `${progressPercentage}%`;
+        
+        // Update stats display
+        document.getElementById('adniMoney').textContent = formatMoney(GameState.adni.money);
+        document.getElementById('adniHappiness').textContent = GameState.adni.happiness;
+        document.getElementById('adniEnergy').textContent = GameState.adni.energy;
+        document.getElementById('adniSocial').textContent = GameState.adni.social;
+        
+        // Add event listeners to choice buttons
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.classList.contains('selected')) return;
+                
+                const choice = this.getAttribute('data-choice');
+                const key = `adni3-${choice}`;
+                const effects = ChoiceEffects[key];
+                
+                // Check if can afford
+                if (!canAffordChoice('adni', effects)) {
+                    alert("Uang tidak cukup untuk pilihan ini!");
+                    return;
+                }
+                
+                // Apply effects and get message
+                const message = applyEffects(GameState.adni, effects);
+                
+                // Update display with animation
+                const moneyElement = document.getElementById('adniMoney');
+                const happinessElement = document.getElementById('adniHappiness');
+                const energyElement = document.getElementById('adniEnergy');
+                const socialElement = document.getElementById('adniSocial');
+                
+                moneyElement.textContent = formatMoney(GameState.adni.money);
+                happinessElement.textContent = GameState.adni.happiness;
+                energyElement.textContent = GameState.adni.energy;
+                socialElement.textContent = GameState.adni.social;
+                
+                // Add animation to updated stats
+                [moneyElement, happinessElement, energyElement, socialElement].forEach(el => {
+                    el.classList.add('stat-update');
+                    setTimeout(() => el.classList.remove('stat-update'), 600);
+                });
+                
+                // Save game state
+                GameState.currentScene = 3;
+                saveGameState();
+                
+                // Add selection animation to all buttons
+                document.querySelectorAll('.choice-btn').forEach(b => {
+                    b.classList.remove('selected');
+                    b.disabled = true;
+                });
+                this.classList.add('selected');
+                
+                // Show message
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'choice-message';
+                messageDiv.textContent = message;
+                document.querySelector('.scene-text').appendChild(messageDiv);
+                
+                // Transition to next scene after delay
+                setTimeout(() => {
+                    document.querySelector('.scene-screen').classList.add('fade-out');
+                    setTimeout(() => {
+                        // Go to next day
+                        GameState.day++;
+                        GameState.currentScene++;
+                        saveGameState();
+                        
+                        if (GameState.day > GameState.totalDays) {
+                            window.location.href = 'ending.html';
+                        } else {
+                            window.location.href = `adni-scene${GameState.currentScene}.html`;
+                        }
+                    }, 800);
+                }, 2500);
+            });
+        });
+    </script>
+</body>
+</html>
